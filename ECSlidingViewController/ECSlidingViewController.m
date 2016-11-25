@@ -803,6 +803,10 @@
     return _isInteractive;
 }
 
+-(BOOL)isInterruptible {
+    return YES;
+}
+
 - (BOOL)transitionWasCancelled {
     return _transitionWasCancelled;
 }
@@ -892,6 +896,19 @@
     } else if (self.currentOperation == ECSlidingViewControllerOperationResetFromRight) {
         if (key == UITransitionContextFromViewControllerKey) return self.underLeftViewController;
         if (key == UITransitionContextToViewControllerKey)   return self.topViewController;
+    }
+    
+    return nil;
+}
+
+- (nullable __kindof UIView *)viewForKey:(UITransitionContextViewKey)key {
+    
+    if (key == UITransitionContextToViewKey) {
+        return [self viewControllerForKey:UITransitionContextToViewControllerKey].view;
+    }
+    
+    if (key == UITransitionContextFromViewKey) {
+        return [self viewControllerForKey:UITransitionContextFromViewControllerKey].view;
     }
     
     return nil;
